@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="process-apiFlow" doc:id="9045e241-0643-427c-819e-0238ec050a1c" >
+		<http:listener doc:name="Listener" doc:id="018fd940-5012-4c77-9069-fb0b71db33bf" config-ref="HTTP_Listener_config" path="/papi"/>
+		<logger level="INFO" doc:name="Logger" doc:id="af1d9adb-1903-4670-a1eb-776a1fb484c7" message="calling salesforce sapi"/>
+		<http:request method="GET" doc:name="Request" doc:id="51e7ca18-7471-4d5d-991d-ffa960978174" config-ref="HTTP_Salesforce_Request_configuration" path="/api/saleforce" target="sf_payload"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6bbd9c9c-04a6-4a91-b2af-f4286cff8713" message="salesforce req completed"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3ed9d6e8-7eb0-4fb2-8931-d165acf930ca" message="aws req started"/>
+		<http:request method="POST" doc:name="Request" doc:id="b75d67ba-a8b8-4c84-9f6e-df17624baff1" config-ref="HTTP_AWS_Request_configuration" path="/api/aws"/>
+		<logger level="INFO" doc:name="Logger" doc:id="29f37349-ba30-4edb-a1f9-1df9dfd4b1e1" message="aws req completed"/>
+	</flow>
+</mule>
